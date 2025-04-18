@@ -1,0 +1,96 @@
+<%- include('partials/dashboard-top.ejs')%>
+
+<!-- History Section -->
+<div class="flex-grow container mx-auto px-4 py-6">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-4xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">Deposits</h2>
+    <div class="overflow-x-auto">
+      <% if (deposits.length > 0) { %>
+        <table class="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr class="bg-gray-800 text-white">
+              <th class="py-2 px-4 border">Date</th>
+              <th class="py-2 px-4 border">Amount (NGN)</th>
+              <th class="py-2 px-4 border">Reference</th>
+              <th class="py-2 px-4 border">Status</th>
+              <th class="py-2 px-4 border">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% deposits.forEach(deposit => { %>
+              <tr class="border" id="deposit-row-<%= deposit.id %>">
+                <td class="py-2 px-4 border"><%= deposit.createdAt.toISOString().split('T')[0] %></td>
+                <td class="py-2 px-4 border"><%= deposit.amount %></td>
+                <td class="py-2 px-4 border"><%= deposit.trans_ref %></td>
+                <td class="py-2 px-4 border"><%= deposit.status %></td>
+                <td class="py-2 px-4 border text-center">
+                  <% if (deposit.status === 'abandoned') { %>
+                    <button 
+                      onclick="confirmDelete('<%= deposit.id %>')" 
+                      class="text-red-600 font-semibold hover:underline"
+                    >
+                      Delete
+                    </button>
+                  <% } %>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p class="text-center text-gray-500">No deposit history available.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-lg text-center w-80">
+    <p class="text-lg mb-4">Deleting deposit, please wait...</p>
+    <div class="w-8 h-8 border-4 border-blue-600 border-dashed rounded-full animate-spin mx-auto"></div>
+  </div>
+</div>
+
+<%- include('partials/dashboard-bottom.ejs')%>
+
+<script>
+  let depositToDelete = null;
+
+  function confirmDelete(id) {
+    depositToDelete = id;
+    showDeleteModal();
+    deleteDeposit();
+  }
+
+  function showDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('hidden');
+  }
+
+  function hideDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+  }
+
+  async function deleteDeposit() {
+    try {
+      const response = await fetch(`/api/currencies/delete-deposit/${depositToDelete}`, {
+        method: 'DELETE'
+      });
+
+      const result = await response.json();
+      hideDeleteModal();
+
+      if (result.status === 'success') {
+        const row = document.getElementById(`deposit-row-${depositToDelete}`);
+        if (row) row.remove();
+        alert(result.message);
+      } else {
+        alert("Failed to delete deposit: " + result.message);
+      }
+    } catch (err) {
+      hideDeleteModal();
+      alert("An error occurred while deleting deposit.");
+      console.error(err);
+    }
+  }
+</script>
