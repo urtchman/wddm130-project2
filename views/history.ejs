@@ -1,0 +1,36 @@
+<%- include('partials/dashboard-top.ejs')%>
+
+  <!-- History Section -->
+  <div class="flex-grow container mx-auto px-4 py-6">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-4 text-center">Transaction History</h2>
+      <div class="overflow-x-auto">
+        <% if (transactions.length > 0) { %>
+          <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+              <tr class="bg-gray-800 text-white">
+                <th class="py-2 px-4 border">Date</th>
+                <th class="py-2 px-4 border">Amount (NGN)</th>
+                <th class="py-2 px-4 border">Currency</th>
+                <th class="py-2 px-4 border">Converted Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% transactions.forEach(transaction => { %>
+                <tr class="border">
+                  <td class="py-2 px-4 border"><%= transaction.date %></td>
+                  <td class="py-2 px-4 border"><%= transaction.amount %></td>
+                  <td class="py-2 px-4 border"><%= transaction.currency.toUpperCase() %></td>
+                  <td class="py-2 px-4 border"><%= transaction.convertedAmount %></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } else { %>
+          <p class="text-center text-gray-500">No transaction history available.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <%- include('partials/dashboard-bottom.ejs')%>

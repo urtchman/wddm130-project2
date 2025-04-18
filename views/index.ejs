@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs')%>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <%- include('partials/header.ejs')%>
+    <!-- Main Content -->
+    <main class="container mx-auto p-6 flex-1">
+        <!-- Introduction Card -->
+        <section class="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-bold mb-4 text-blue-700">Welcome to Naira Swap</h1>
+                    <p class="text-gray-700 text-lg leading-relaxed">
+                        Are you looking for a secure and hassle-free way to exchange your Naira for international currencies?  
+                        <span class="font-semibold">Naira Swap</span> is your trusted solution for exchanging Naira to CAD, USD, GBP, and EURO at the best rates.  
+                        Whether you're a student, freelancer, traveler, or business owner, we provide a fast, transparent, and reliable exchange service  
+                        without the hidden fees and long processing times of traditional banks. 
+                    </p>
+                    <p class="text-gray-700 text-lg leading-relaxed mt-4">
+                        Our platform is designed for convenience—seamless transactions, real-time exchange rate updates, and 24/7 customer support.  
+                        Say goodbye to slow transactions and unreliable middlemen. With <span class="font-semibold">Naira Swap</span>, your money moves fast, safe, and secure.
+                    </p>
+                </div>
+                <div>
+                    <img src="/images/currencies.png" alt="Money exchange illustration" class="rounded-lg shadow-md">
+                </div>
+            </div>
+        </section>
+
+        <!-- Exchange Rate Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mt-10">
+            <div class="bg-white p-6 shadow-lg rounded-lg text-center border border-blue-300">
+                <h2 class="text-2xl font-bold text-blue-600">Naira to CAD</h2>
+                <p class="text-gray-700 text-lg mt-2">1 NGN = <span class="font-semibold"><%=rates.NGNCAD%> CAD</span></p>
+            </div>
+            <div class="bg-white p-6 shadow-lg rounded-lg text-center border border-blue-300">
+                <h2 class="text-2xl font-bold text-blue-600">Naira to USD</h2>
+                <p class="text-gray-700 text-lg mt-2">1 NGN = <span class="font-semibold"><%=rates.NGNUSD%> USD</span></p>
+            </div>
+            <div class="bg-white p-6 shadow-lg rounded-lg text-center border border-blue-300">
+                <h2 class="text-2xl font-bold text-blue-600">Naira to GBP</h2>
+                <p class="text-gray-700 text-lg mt-2">1 NGN = <span class="font-semibold"><%=rates.NGNGBP%> GBP</span></p>
+            </div>
+            <div class="bg-white p-6 shadow-lg rounded-lg text-center border border-blue-300">
+                <h2 class="text-2xl font-bold text-blue-600">Naira to EURO</h2>
+                <p class="text-gray-700 text-lg mt-2">1 NGN = <span class="font-semibold"><%=rates.NGNEUR%> EUR</span></p>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer.ejs') %>
+</body>
+</html>
