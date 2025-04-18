@@ -1,0 +1,141 @@
+// dash-mixins.scss - Reusable mixins for dashboard styling
+
+// Responsive breakpoint manager
+@mixin dash-breakpoint($breakpoint) {
+    @if map-has-key($dash-grid-breakpoints, $breakpoint) {
+      @media (min-width: map-get($dash-grid-breakpoints, $breakpoint)) {
+        @content;
+      }
+    } @else {
+      @warn "Invalid breakpoint: #{$breakpoint}.";
+    }
+  }
+  
+  // Typography mixins
+  @mixin dash-font-size($size, $line-height: null) {
+    font-size: $size;
+    @if $line-height {
+      line-height: $line-height;
+    }
+  }
+  
+  @mixin dash-heading($size, $weight: $dash-font-weight-bold, $line-height: 1.2) {
+    font-size: $size;
+    font-weight: $weight;
+    line-height: $line-height;
+    margin-bottom: $dash-spacer;
+  }
+  
+  // Flex mixins
+  @mixin dash-flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @mixin dash-flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  @mixin dash-flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // Positioning mixins
+  @mixin dash-absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  @mixin dash-absolute-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  // Box shadow mixins
+  @mixin dash-shadow-sm {
+    box-shadow: $dash-box-shadow-sm;
+  }
+  
+  @mixin dash-shadow {
+    box-shadow: $dash-box-shadow;
+  }
+  
+  @mixin dash-shadow-lg {
+    box-shadow: $dash-box-shadow-lg;
+  }
+  
+  // Border radius mixins
+  @mixin dash-rounded($radius: $dash-border-radius) {
+    border-radius: $radius;
+  }
+  
+  @mixin dash-rounded-circle {
+    border-radius: 50%;
+  }
+  
+  // Transition mixins
+  @mixin dash-transition($properties...) {
+    $transitions: ();
+    @each $property in $properties {
+      $transitions: append($transitions, $property 0.2s ease-in-out, comma);
+    }
+    transition: $transitions;
+  }
+  
+  // Gradient mixins
+  @mixin dash-gradient-directional($start-color, $end-color, $deg: 45deg) {
+    background-image: linear-gradient($deg, $start-color, $end-color);
+  }
+  
+  @mixin dash-gradient-vertical($start-color, $end-color) {
+    background-image: linear-gradient(to bottom, $start-color, $end-color);
+  }
+  
+  @mixin dash-gradient-horizontal($start-color, $end-color) {
+    background-image: linear-gradient(to right, $start-color, $end-color);
+  }
+  
+  // Truncate text with ellipsis
+  @mixin dash-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  // Hide element visually but keep it accessible for screen readers
+  @mixin dash-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  // Scrollbar styling
+  @mixin dash-scrollbar($width: 8px, $track-color: $dash-gray-200, $thumb-color: $dash-gray-400) {
+    &::-webkit-scrollbar {
+      width: $width;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: $track-color;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: $thumb-color;
+      border-radius: $dash-border-radius;
+    }
+  }

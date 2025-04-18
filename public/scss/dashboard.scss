@@ -1,0 +1,79 @@
+// dashboard.scss - Main file that imports all dashboard styles with custom naming to avoid Tailwind conflicts
+
+// Base imports
+@import 'dash-variables';
+@import 'dash-mixins';
+@import 'dash-reset';
+ 
+
+// Link as button styling with dash- prefix to avoid Tailwind conflicts
+.dash-link-btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  // Primary button style
+  &.dash-link-primary {
+    background-color: $dash-primary-color;
+    color: white;
+    border: 1px solid $dash-primary-color;
+    
+    &:hover {
+      background-color: darken($dash-primary-color, 10%);
+      border-color: darken($dash-primary-color, 10%);
+    }
+  }
+  
+  // Secondary button style
+  &.dash-link-secondary {
+    background-color: $dash-secondary-color;
+    color: white;
+    border: 1px solid $dash-secondary-color;
+    
+    &:hover {
+      background-color: darken($dash-secondary-color, 10%);
+      border-color: darken($dash-secondary-color, 10%);
+    }
+  }
+  
+  // Outline style
+  &.dash-link-outline {
+    background-color: transparent;
+    color: $dash-primary-color;
+    border: 1px solid $dash-primary-color;
+    
+    &:hover {
+      background-color: $dash-primary-color;
+      color: white;
+    }
+  }
+  
+  // Sizes
+  &.dash-link-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  &.dash-link-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  // Block level button
+  &.dash-link-block {
+    display: block;
+    width: 100%;
+  }
+}
+
+// Usage examples:
+// <a href="#" class="dash-link-btn dash-link-primary">Primary Button</a>
+// <a href="#" class="dash-link-btn dash-link-secondary dash-link-lg">Large Secondary Button</a>
+// <a href="#" class="dash-link-btn dash-link-outline dash-link-block">Full Width Outline Button</a>

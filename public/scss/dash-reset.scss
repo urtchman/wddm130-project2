@@ -1,0 +1,131 @@
+// dash-reset.scss - Custom reset styles that won't conflict with Tailwind
+
+// This is a minimal CSS reset focused on dashboard specifics
+// Since you're using Tailwind, we'll only reset elements that need custom styling
+// and use class-based selectors to avoid conflicts
+
+.dash-reset {
+    // Reset box-sizing
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    
+    // Remove default margin on common elements
+    h1, h2, h3, h4, h5, h6,
+    p, blockquote, figure, hr,
+    dl, dd, ul, ol {
+      margin: 0;
+    }
+  
+    // Set core body styles
+    body {
+      font-family: $dash-font-family-base;
+      font-size: $dash-font-size-base;
+      line-height: $dash-line-height-base;
+      color: $dash-body-color;
+      background-color: $dash-body-bg;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+  
+    // Remove list styles
+    ul, ol {
+      list-style: none;
+      padding: 0;
+    }
+  
+    // Images
+    img {
+      max-width: 100%;
+      display: block;
+    }
+  
+    // Tables
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 100%;
+    }
+  
+    // Anchors
+    a {
+      text-decoration: none;
+      color: $dash-primary-color;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  
+    // Form elements
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+      margin: 0;
+      padding: 0;
+    }
+  
+    button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+  
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    
+    // Remove focus outlines when not needed
+    [tabindex="-1"]:focus:not(:focus-visible) {
+      outline: 0 !important;
+    }
+  
+    // Accessibility improvements
+    [role="button"] {
+      cursor: pointer;
+    }
+  
+    [hidden] {
+      display: none !important;
+    }
+  
+    // Use in conjunction with visually-hidden class
+    .dash-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  }
+  
+  // Container for scrollable content with custom scrollbar
+  .dash-scrollable {
+    @include dash-scrollbar();
+    overflow-y: auto;
+  }
+  
+  // Class to support focus styling
+  .dash-focus-visible:focus-visible {
+    outline: 2px solid $dash-primary-color;
+    outline-offset: 2px;
+  }
+  
+  // Reset inside modal or popover contexts
+  .dash-modal-content,
+  .dash-popover-content {
+    @extend .dash-reset;
+  }

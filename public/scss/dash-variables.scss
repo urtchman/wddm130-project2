@@ -1,0 +1,80 @@
+// dash-variables.scss - Custom variables for dashboard styling
+
+// Colors
+$dash-primary-color: #4a6cf7;
+$dash-secondary-color: #6c757d;
+$dash-success-color: #28a745;
+$dash-danger-color: #dc3545;
+$dash-warning-color: #ffc107;
+$dash-info-color: #17a2b8;
+$dash-light-color: #f8f9fa;
+$dash-dark-color: #343a40;
+$dash-white-color: #ffffff;
+$dash-black-color: #000000;
+
+// Gray scale
+$dash-gray-100: #f8f9fa;
+$dash-gray-200: #e9ecef;
+$dash-gray-300: #dee2e6;
+$dash-gray-400: #ced4da;
+$dash-gray-500: #adb5bd;
+$dash-gray-600: #6c757d;
+$dash-gray-700: #495057;
+$dash-gray-800: #343a40;
+$dash-gray-900: #212529;
+
+// Body
+$dash-body-bg: #f5f7fa;
+$dash-body-color: $dash-gray-900;
+
+// Typography
+$dash-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$dash-font-size-base: 0.875rem; // 14px
+$dash-font-weight-normal: 400;
+$dash-font-weight-medium: 500;
+$dash-font-weight-bold: 700;
+$dash-line-height-base: 1.5;
+
+// Border radius
+$dash-border-radius-sm: 0.2rem;
+$dash-border-radius: 0.25rem;
+$dash-border-radius-lg: 0.5rem;
+$dash-border-radius-xl: 1rem;
+
+// Spacing
+$dash-spacer: 1rem;
+$dash-spacers: (
+  0: 0,
+  1: ($dash-spacer * 0.25), // 4px
+  2: ($dash-spacer * 0.5),  // 8px
+  3: $dash-spacer,          // 16px
+  4: ($dash-spacer * 1.5),  // 24px
+  5: ($dash-spacer * 3),    // 48px
+);
+
+// Grid breakpoints
+$dash-grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Z-index
+$dash-z-index-dropdown: 1000;
+$dash-z-index-sticky: 1020;
+$dash-z-index-fixed: 1030;
+$dash-z-index-modal-backdrop: 1040;
+$dash-z-index-modal: 1050;
+$dash-z-index-popover: 1060;
+$dash-z-index-tooltip: 1070;
+
+// Shadows
+$dash-box-shadow-sm: 0 0.125rem 0.25rem rgba($dash-black-color, 0.075);
+$dash-box-shadow: 0 0.5rem 1rem rgba($dash-black-color, 0.15);
+$dash-box-shadow-lg: 0 1rem 3rem rgba($dash-black-color, 0.175);
+
+// Transitions
+$dash-transition-base: all 0.2s ease-in-out;
