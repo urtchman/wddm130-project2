@@ -1,15 +1,16 @@
-// db/dbHelper.js
+// db/models/index.js
 const { Sequelize, DataTypes } = require('sequelize');
-const { appConfig } = require('../src/config/appConfig');
+const dbConfig = require('../../src/config/dbConfig').default;
+console.log(dbConfig.database)
 // Environment variables for DB connection
 const sequelize = new Sequelize(
-  appConfig.db, // database
-  appConfig.user, // user
-  appConfig.password, // password
+  dbConfig.database, // database
+  dbConfig.user, // user
+  dbConfig.password, // password
   {
-    host: appConfig.host,
+    host: dbConfig.host,
     dialect: 'postgres',
-    port: appConfig.dbport,
+    port: dbConfig.dbport,
     dialectOptions: {
       ssl: {
         require: true,
@@ -18,7 +19,7 @@ const sequelize = new Sequelize(
     },
     logging: false, // Set true to see SQL logs
   }
-);
+); 
 
 // Import models
 const User = require('./user')(sequelize);
