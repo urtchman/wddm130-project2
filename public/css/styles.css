@@ -1,0 +1,38 @@
+.header-ns {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  padding: 1rem 0;
+}
+.header-ns .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.header-ns .nav-link {
+  font-size: 1rem;
+  margin-left: 1rem;
+  transition: color 0.3s ease-in-out;
+}
+.header-ns .nav-link:hover {
+  color: #ffcc00;
+}
+
+.main-content-ns {
+  flex: 1;
+  background-color: white;
+  padding: 2rem 0;
+}
+
+.footer-ns {
+  background-color: black;
+  color: white;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+.btn-ns {
+  transition: transform 0.2s;
+}
+.btn-ns:hover {
+  transform: scale(1.05);
+}
+
+/*# sourceMappingURL=styles.css.map */
