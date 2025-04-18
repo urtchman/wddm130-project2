@@ -90,7 +90,7 @@
     
                 // Send data to backend
                 try {
-                    const response = await fetch('/api/signup', {
+                    const response = await fetch('/api/users', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, phone, email, password, passport })
@@ -102,7 +102,7 @@
                         showMessage("Signup successful!", "green");
                         form.reset(); // Clear form on success
                     } else {
-                        showMessage(data.error || "Signup failed", "red");
+                        showMessage(data.message || "Signup failed", "red");
                     }
                 } catch (error) {
                     showMessage("Error connecting to server", "red");

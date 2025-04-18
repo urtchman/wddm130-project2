@@ -6,7 +6,7 @@
       <div class="mb-4">
         <label for="nairaAmount" class="block text-left font-medium">Enter Naira Amount:</label>
         <input type="number" id="nairaAmount" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300" placeholder="Enter amount in NGN">
-        <div><small>Balance: ₦<%=wallet.naira%></small></div>
+        <div><small id="nairabalance">Balance: ₦<%=wallet.naira%></small></div>
       </div>
        
       <button id="swapBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Next</button>
@@ -14,6 +14,16 @@
     </div>
   </div>
 
+  <!-- Modal Overlay -->
+<div id="modalOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white w-full max-w-sm mx-auto p-6 rounded-lg text-center shadow-lg">
+    <div id="modalContent" class="space-y-4">
+      <p class="text-lg">Processing deposit, please wait...</p>
+      <div class="w-10 h-10 border-4 border-blue-600 border-dashed rounded-full animate-spin mx-auto"></div>
+    </div>
+    <button id="closeModal" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 hidden">Close</button>
+  </div>
+</div>
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 mt-auto">
     <div class="container mx-auto text-center">
@@ -34,27 +44,76 @@
 
     document.getElementById('swapBtn').addEventListener('click', async() => {
         const nairaAmount = parseFloat(document.getElementById('nairaAmount').value); 
-        
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalContent = document.getElementById('modalContent');
+        const closeModal = document.getElementById('closeModal');
         if (!nairaAmount || nairaAmount <= 0) {
             document.getElementById('swapResult').textContent = 'Please enter a valid amount.';
             return;
         }
-        payWithBudPay(nairaAmount);
-        function payWithBudPay(amount) {  
+        // Show loading modal
+        modalOverlay.classList.remove('hidden');
+        modalContent.innerHTML = `
+          <p class="text-lg">Processing deposit, please wait...</p>
+          <div class="w-10 h-10 border-4 border-blue-600 border-dashed rounded-full animate-spin mx-auto"></div>
+        `;
+
+        try {
+          const response = await fetch('/api/currencies/deposit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({email:'<%=user.email%>', amount: nairaAmount })
+          });
+
+          const result = await response.json();
+
+          if (result.status === 'success') {
+            console.log(result)
+            // Hide modal after 1 second and call payWithBudPay
+            setTimeout(() => {
+              modalOverlay.classList.add('hidden');
+              payWithBudPay(nairaAmount, result.data.reference); 
+            }, 1000);
+          } else {
+            modalContent.innerHTML = `
+              <h3 class="text-red-600 text-xl font-semibold">Deposit Failed</h3>
+              <p>${result.message}</p>
+            `;
+
+            // Hide modal after showing error for 2 seconds
+            setTimeout(() => {
+              modalOverlay.classList.add('hidden');
+            }, 2000);
+          }
+
+        } catch (error) {
+          console.log(error)
+          modalContent.innerHTML = `
+            <h3 class="text-red-600 text-xl font-semibold">Error</h3>
+            <p>Could not connect to the server.</p>
+          `;
+
+          setTimeout(() => {
+            modalOverlay.classList.add('hidden');
+          }, 2000);
+        }
+        
+         
+        function payWithBudPay(amount, transref) {  
             BudPayCheckout({
-                key: 'pk_test_cuii3qi3zk3vo2l60nohlj3ymx0k1tapbewr9y', // Replace with your public key
+                key: '<%=budpay.publicKey%>',  
                 email: '<%=user.email%>',
                 amount: nairaAmount,
                 first_name: arrNames[0],
                 last_name: arrNames[1],
                 currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
-                reference: '' + Math.floor((Math.random() * 100000000000) + 1) + new Date().getSeconds() + new Date().getMilliseconds(), // generates a pseudo-unique reference. Please replace with a reference you generated. or remove the line entirely so our API will generate one for you
+                reference: transref, // generates a pseudo-unique reference. Please replace with a reference you generated. or remove the line entirely so our API will generate one for you
                 callback: function(response) {
                     //this happens after the payment is completed successfully
                     var reference = response.reference;
                     console.log(response);
-                    //updateBudPay(document.getElementById('amount').value, response.reference);
-                    alert('Payment complete! Reference: ' + reference + ', Status: ' + response.status);
+                    updateBudPay(nairaAmount, response.reference);
+                    //alert('Payment complete! Reference: ' + reference + ', Status: ' + response.status);
                 },
                 onClose: function (response) {
                     console.log(response);
@@ -73,16 +132,17 @@
 
         function updateBudPay(amount, transRef) {
             $.ajax({
-                url: '/api/update-payment',
+                url: '/api/currencies/update-deposit',
                 method: 'POST', //
-                data: JSON.stringify({ amount:amount, TransRef: transRef }),
+                data: JSON.stringify({ amount:amount, trans_ref: transRef }),
                 contentType: "application/json",
                 success: function (data) {
-                    swal.close();
+                    //swal.close();
                     console.log(data);
 
                     if (data.status == "success") {
                         document.getElementById('swapResult').textContent = data.message;
+                        document.getElementById('nairabalance').innerHTML=`Balance: ₦${data.data.amount}`;
                     }
                 },
                 error: function (jqXHR, textStatus, error) {

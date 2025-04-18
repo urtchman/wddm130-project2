@@ -46,26 +46,27 @@
       
       
       // Send data to backend
-      /*try {
-            const response = await fetch('/api/swap', {
+      try {
+            const response = await fetch('/api/currencies/swap', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount:nairaAmount, currency:currency.toUpperCase() })
+                body: JSON.stringify({ amount:nairaAmount, currency:currency.toUpperCase(), email:'<%=user.email%>' })
             });
 
             const data = await response.json();
         
             if (response.ok) { 
-                const convertedAmount = data.converted.toFixed(5);
+              //const exchangeRates = { cad: 0.0027, usd: 0.0011, gbp: 0.00085, eur: 0.0010 };
+              //const convertedAmount = (nairaAmount * exchangeRates[currency]).toFixed(2);
+              //document.getElementById('swapResult').textContent = `You will get approximately ${convertedAmount} ${currency.toUpperCase()}`;
+              console.log(data)
             } else {
                 showMessage(data.error || "Signup failed", "red");
             }
         } catch (error) {
             showMessage("Error connecting to server", "red");
-        }*/
-        const exchangeRates = { cad: 0.0027, usd: 0.0011, gbp: 0.00085, eur: 0.0010 };
-        const convertedAmount = (nairaAmount * exchangeRates[currency]).toFixed(2);
-        document.getElementById('swapResult').textContent = `You will get approximately ${convertedAmount} ${currency.toUpperCase()}`;
+        }
+        
         //alert('This is just a demo')
     });
   </script>
